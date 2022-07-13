@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 
 const newsSchema = mongoose.Schema({
     text: String,
+    title:String,
+    pictures:String,
     category: {
         ref: 'Category',
         type: mongoose.SchemaTypes.ObjectId

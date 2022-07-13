@@ -28,5 +28,14 @@ module.exports.commentController = {
         } catch (error) {
             return res.status(401).json(error.toString())
         }
-    }
+    },
+    getComment: async (req, res) => {
+        try {
+            const news = await Comment.find({news: req.params.id})
+            res.json(news)
+        } catch (error) {
+            return res.status(401).json(error.toString())
+        }
+    },
+
 }

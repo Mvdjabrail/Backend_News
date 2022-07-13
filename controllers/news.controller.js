@@ -5,7 +5,7 @@ require('dotenv').config()
 module.exports.newsController = {
     postNews: async (req, res) => {
         try {
-            const { text, category } = req.body
+            const { text, category,title,pictures } = req.body
             const { authorization } = req.headers
             const [type, token] = authorization.split(' ')
             if (type !== 'Bearer') {
@@ -17,7 +17,9 @@ module.exports.newsController = {
                 const news = await News.create({
                     text,
                     category,
-                    user: payload.id 
+                    user: payload.id ,
+                    title,
+                    pictures
                 })
                 res.json(news)
 
@@ -47,6 +49,14 @@ module.exports.newsController = {
     getNews: async (req, res) => {
         try {
             const news = await News.find()
+            res.json(news)
+        } catch (error) {
+            return res.status(401).json(error.toString())
+        }
+    },
+    getNewsById: async (req, res) => {
+        try {
+            const news = await News.findById(req.params.id)
             res.json(news)
         } catch (error) {
             return res.status(401).json(error.toString())

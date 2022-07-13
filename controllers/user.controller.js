@@ -6,9 +6,14 @@ require('dotenv').config()
 module.exports.userController = {
 
     getUser: async (req, res) => {
-        const users = await User.find()
-        res.json(users)
+        try {
+            const users = await User.find()
+            res.json(users)
+        } catch (error) {
+            res.json(error)
+        }
     },
+    
     postUser: async (req, res) => {
         try {
             const { login, password } = req.body
@@ -17,7 +22,7 @@ module.exports.userController = {
             res.json(user)
 
         } catch (error) {
-            return res.status(400).json("{ error: 'Ошибка при регистрации: ' + error.toString() }")
+            return res.status(400).json({ error: 'Ошибка при регистрации: ' + error.toString() })
         }
     },
 
@@ -45,7 +50,7 @@ module.exports.userController = {
         })
         console.log(token);
 
-        res.json({ token, user: payload.id })
+        res.json({ token, user: payload.id, name: payload.login })
 
     }
 }

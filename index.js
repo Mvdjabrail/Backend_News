@@ -6,6 +6,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use(require('./routes/index.rout'))
+app.use('/image', express.static(__dirname + '/image'));
 
 mongoose.connect('mongodb+srv://mvdjabrail:1221@cluster0.5s8s8.mongodb.net/newsSite', {
     useNewUrlParser: true,
