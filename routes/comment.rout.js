@@ -6,4 +6,6 @@ const router = Router()
 
 router.post('/comment',authMiddlewares, commentController.postComment)
 router.get('/comment/:id', commentController.getComment)
+router.get('/comments', commentController.getComments)
+
 module.exports = router
