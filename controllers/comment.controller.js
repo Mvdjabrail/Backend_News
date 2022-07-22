@@ -46,5 +46,19 @@ module.exports.commentController = {
             return res.status(401).json(error.toString())
         }
     },
+    deleteComment: async (req, res) => {
+        const { id } = req.params
+        try {
+            const news = await Comment.findById(id)
+
+            if (news.user.toString() === req.user.id) {
+                await news.remove()
+                return res.json('Удалено')
+            }
+            res.status(401).json('Ошибка. Нет доступа')
+        } catch (error) {
+            return res.status(401).json('Ошибка: ' + error.toString())
+        }
+    },
 
 }

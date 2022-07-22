@@ -5,30 +5,19 @@ require('dotenv').config()
 module.exports.newsController = {
     postNews: async (req, res) => {
         try {
-            const { text, category,title,pictures } = req.body
-            const { authorization } = req.headers
-            const [type, token] = authorization.split(' ')
-            if (type !== 'Bearer') {
-                return res.status(401).json('Неверный тип токена')
-            }
-            try {
-                const payload = await jwt.verify(token, process.env.SECRET_JWT_KEY)
+            const { text, category, title } = req.body
 
-                const news = await News.create({
-                    text,
-                    category,
-                    user: payload.id ,
-                    title,
-                    pictures
-                })
-                res.json(news)
 
-            } catch (e) {
-                return res.status(401).json('Неверный токен')
-            }
+            const news = await News.create({
+                text,
+                category,
+                title,
+                image: req.file.path
+            })
 
+            return res.json(news)
         } catch (error) {
-            return res.status(401).json(error.toString())
+            return res.status(401).json({ error: error.toString() })
         }
     },
 
